@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rincón Mascota · Guía y Registro Anual de Salud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --rosa:#f7b6cd; --rosa-d:#e87aa0; --rosa-l:#ffe1ec;
+  --lila:#cdb6ef;  --lila-d:#9b74d4;  --lila-l:#efe6fb;
+  --menta:#a9e3c4; --menta-d:#4fae82; --menta-l:#e2f6ea;
+  --dur:#ffcfa3;   --dur-d:#ef8a3c;   --dur-l:#fff0e0;
+  --cielo:#bfe3f2; --cielo-d:#4f9fc0; --cielo-l:#e6f5fb;
+  --tinta:#5b4658; --gris:#8a7585; --blanco:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+body{font-family:'Quicksand',sans-serif;color:var(--tinta);background:#e9ddf0;
+  display:flex;flex-direction:column;align-items:center;gap:8mm;padding:26mm 8mm 8mm;}
+
+/* ===== barra (NO se imprime) ===== */
+.toolbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px;
+  justify-content:center;align-items:center;padding:10px 14px;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(6px);border-bottom:2px solid var(--lila);
+  box-shadow:0 4px 14px rgba(91,70,88,.12);}
+.toolbar .tb-title{font-family:'Baloo 2';font-weight:700;color:var(--rosa-d);font-size:14px;margin-right:4px;}
+.btn{font-family:'Baloo 2';font-weight:700;font-size:13px;color:#fff;border:none;cursor:pointer;
+  padding:9px 14px;border-radius:22px;display:inline-flex;align-items:center;gap:6px;
+  box-shadow:0 3px 0 rgba(0,0,0,.12);transition:transform .08s,filter .15s;}
+.btn:hover{filter:brightness(1.06);} .btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.12);}
+.btn.print{background:var(--rosa-d);} .btn.p1{background:var(--lila-d);}
+.btn.p2{background:var(--menta-d);} .btn.dl{background:var(--dur-d);}
+.btn[disabled]{opacity:.6;cursor:wait;}
+.tip{width:100%;text-align:center;font-size:12px;color:var(--gris);margin-top:2px;}
+.tip b{color:var(--rosa-d);}
+
+/* ===== hoja A4 — FONDO BLANCO LILIÁCEO SUAVE (sin radiales que oscurezcan el PDF) ===== */
+.sheet{position:relative;width:210mm;height:297mm;padding:9mm 12mm;display:flex;flex-direction:column;
+  background:linear-gradient(178deg,#fdfbff 0%,#f6effb 100%);
+  overflow:hidden;box-shadow:0 6px 22px rgba(91,70,88,.18);}
+.sheet:not(:last-child){page-break-after:always;break-after:page;}
+.page-tag{position:absolute;top:4mm;right:5mm;z-index:3;font-family:'Baloo 2';font-weight:700;
+  font-size:8.5pt;color:#fff;background:var(--lila-d);padding:1mm 3mm;border-radius:14px;}
+
+.deco{position:absolute;opacity:.45;pointer-events:none;z-index:0;}
+.d1{top:6mm;left:7mm;width:11mm;} .d2{top:8mm;right:9mm;width:10mm;}
+.d3{bottom:10mm;left:6mm;width:10mm;} .d4{bottom:8mm;right:8mm;width:12mm;}
+
+.header{position:relative;z-index:2;text-align:center;margin-bottom:3mm;}
+.brand{font-family:'Baloo 2';font-weight:700;font-size:10pt;color:var(--lila-d);}
+.title{font-family:'Baloo 2';font-weight:800;line-height:1;font-size:22pt;color:var(--rosa-d);
+  -webkit-text-stroke:2.1px #fff;paint-order:stroke fill;text-shadow:2px 3px 0 rgba(155,116,212,.2);margin:1mm 0 .5mm;}
+.subtitle{font-family:'Baloo 2';font-weight:700;font-size:12.5pt;color:var(--lila-d);
+  -webkit-text-stroke:1.4px #fff;paint-order:stroke fill;text-shadow:1px 2px 0 rgba(232,122,160,.16);}
+
+/* card con chip SOLAPADO (no come altura de flujo) */
+.card{position:relative;z-index:2;background:var(--blanco);border-radius:16px;
+  padding:4mm 5mm;margin-top:6mm;margin-bottom:3mm;}
+.card.rosa{border:3px solid var(--rosa);box-shadow:0 4px 0 var(--rosa-l);}
+.card.lila{border:3px solid var(--lila);box-shadow:0 4px 0 var(--lila-l);}
+.card.menta{border:3px solid var(--menta);box-shadow:0 4px 0 var(--menta-l);}
+.card.dur{border:3px solid var(--dur);box-shadow:0 4px 0 var(--dur-l);}
+.card.cielo{border:3px solid var(--cielo);box-shadow:0 4px 0 var(--cielo-l);}
+.chip{position:absolute;top:-5mm;left:4mm;display:inline-flex;align-items:center;gap:2mm;
+  font-family:'Baloo 2';font-weight:700;font-size:12.5pt;color:#fff;padding:1.1mm 3.5mm;border-radius:22px;
+  box-shadow:0 3px 0 rgba(0,0,0,.08);}
+.chip.rosa{background:var(--rosa-d);} .chip.lila{background:var(--lila-d);}
+.chip.menta{background:var(--menta-d);} .chip.dur{background:var(--dur-d);}
+.chip.cielo{background:var(--cielo-d);}
+.hint{font-size:8.5pt;color:var(--gris);margin:0 0 2mm 1mm;font-style:italic;line-height:1.2;}
+
+/* alturas FIJAS de escritura (deterministas) */
+.ln9{display:block;height:9mm;border-bottom:2.5px dotted var(--lila-d);border-radius:2px;}
+.ln8{display:block;height:8mm;border-bottom:2.5px dotted var(--lila-d);border-radius:2px;}
+.lab{font-size:10pt;font-weight:700;color:var(--rosa-d);font-family:'Baloo 2';margin-bottom:.8mm;display:block;line-height:1.1;}
+
+/* ficha paciente */
+.ficha{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm 6mm;}
+.fld.full{grid-column:1 / -1;}
+.year-line{display:flex;align-items:flex-end;gap:2mm;height:10mm;border-bottom:3px dotted var(--lila-d);}
+.year-line .pre{font-family:'Baloo 2';font-weight:800;font-size:14pt;color:var(--lila-d);line-height:1;}
+.year-line .gap{flex:0 0 16mm;}
+
+/* tablas */
+table{width:100%;border-collapse:collapse;font-size:9.5pt;}
+th{font-family:'Baloo 2';font-weight:700;font-size:9.5pt;color:#fff;padding:1.2mm 1.5mm;text-align:left;line-height:1.1;}
+.card.rosa th{background:var(--rosa-d);} .card.menta th{background:var(--menta-d);}
+td{padding:1.2mm 1.5mm;border-bottom:2px dashed #ecdff2;vertical-align:middle;font-weight:600;height:10mm;}
+td.name{color:var(--tinta);font-weight:700;line-height:1.15;}
+td .dt{font-size:7.5pt;color:#9a86a0;font-weight:600;display:block;line-height:1.1;}
+.box{display:inline-block;width:5mm;height:5mm;border:2px solid var(--menta-d);border-radius:4px;vertical-align:middle;background:#fff;flex:0 0 auto;}
+.datewrap{display:flex;align-items:center;gap:2mm;}
+.datewrap .ln8{flex:1;}
+
+/* desparasitación en 2 columnas de 6 */
+.two-col{display:flex;gap:5mm;}
+.two-col > div{flex:1;}
+
+/* peso */
+.peso-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5mm 7mm;font-size:10pt;font-weight:600;}
+.peso-grid .p{display:flex;align-items:flex-end;justify-content:space-between;gap:2mm;height:8.5mm;}
+.peso-grid .p .lbl{white-space:nowrap;}
+.peso-grid .p .w{flex:1;border-bottom:2.5px dotted var(--dur-d);height:8.5mm;}
+.peso-grid .p .kg{color:var(--dur-d);font-weight:700;}
+
+/* emergencias */
+.contact{display:flex;flex-direction:column;gap:2.5mm;font-size:10pt;font-weight:600;}
+.contact .c{display:flex;align-items:flex-end;gap:2.5mm;height:8.5mm;}
+.contact .c .em{font-size:12pt;}
+.contact .c .lbl{min-width:48mm;line-height:1.1;}
+.contact .c .ln{flex:1;border-bottom:2.5px dotted var(--cielo-d);height:8.5mm;}
+
+/* notas */
+.notes{display:flex;flex-direction:column;gap:3mm;}
+.notes .nl{height:10mm;border-bottom:2.5px dotted var(--dur-d);}
+
+.footer{position:relative;z-index:2;margin-top:auto;text-align:center;font-family:'Baloo 2';
+  font-weight:700;font-size:9.5pt;color:var(--rosa-d);padding-top:2.5mm;line-height:1.2;}
+.footer .paw{color:var(--lila-d);}
+
+@media print{
+  @page{size:A4;margin:0;}
+  body{background:#fff;padding:0;gap:0;}
+  .toolbar,.tip{display:none!important;}
+  .sheet{box-shadow:none;width:210mm;height:297mm;}
+  body.pg1 .sheet.s2{display:none!important;}
+  body.pg2 .sheet.s1{display:none!important;}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="tb-title">🐾 Rincón Mascota</span>
+  <button class="btn print" onclick="printAll()">🖨 Imprimir todo</button>
+  <button class="btn p1" onclick="printSheet(1)">📄 Solo hoja 1</button>
+  <button class="btn p2" onclick="printSheet(2)">📄 Solo hoja 2</button>
+  <button class="btn dl" id="btnDl" onclick="downloadPDF()">⬇ Descargar PDF</button>
+  <div class="tip">PDF nativo más fiel: <b>Imprimir → Guardar como PDF</b> (A4, márgenes <b>Ninguno</b>, activa <b>“Gráficos de fondo”</b>).</div>
+</div>
+
+<!-- ============ HOJA 1 ============ -->
+<div class="sheet s1">
+  <span class="page-tag">Hoja 1 / 2</span>
+  <svg class="deco d1" viewBox="0 0 100 100"><g fill="#f7b6cd"><ellipse cx="50" cy="62" rx="22" ry="18"/><circle cx="26" cy="38" r="9"/><circle cx="44" cy="26" r="9"/><circle cx="62" cy="28" r="9"/><circle cx="78" cy="42" r="9"/></g></svg>
+  <svg class="deco d2" viewBox="0 0 100 100"><path fill="#cdb6ef" d="M50 82C20 60 8 44 8 30 8 18 18 10 30 10c8 0 16 5 20 12 4-7 12-12 20-12 12 0 22 8 22 20 0 14-12 30-42 52z"/></svg>
+
+  <div class="header">
+    <div class="brand">🐾 Rincón Mascota · Tu guía de confianza para el cuidado animal 🐾</div>
+    <div class="title">Guía y Registro Anual</div>
+    <div class="subtitle">de Salud para Mascotas</div>
+  </div>
+
+  <div class="card lila">
+    <span class="chip lila">📋 Datos del Paciente</span>
+    <div class="ficha">
+      <div class="fld full"><span class="lab">Año del registro</span>
+        <span class="year-line"><span class="pre">20</span><span class="gap"></span></span></div>
+      <div class="fld"><span class="lab">Nombre de la mascota</span><span class="ln9"></span></div>
+      <div class="fld"><span class="lab">Especie / Raza</span><span class="ln9"></span></div>
+      <div class="fld"><span class="lab">Fecha de nacimiento / Edad</span><span class="ln9"></span></div>
+      <div class="fld"><span class="lab">Peso actual</span><span class="ln9"></span></div>
+      <div class="fld full"><span class="lab">Tutor responsable</span><span class="ln9"></span></div>
+    </div>
+  </div>
+
+  <div class="card rosa">
+    <span class="chip rosa">💉 Registro de Vacunación Anual</span>
+    <p class="hint">Anota la fecha de aplicación y cuándo toca el próximo refuerzo.</p>
+    <table>
+      <thead><tr><th style="width:30%">Vacuna</th><th style="width:23%">Fecha aplicación</th><th style="width:23%">Próx. refuerzo</th><th>Notas / Lote</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Antirrábica</td><td><span class="ln8"></span></td><td><span class="ln8"></span></td><td><span class="ln8"></span></td></tr>
+        <tr><td class="name">Séxtuple / Óctuple<span class="dt">(perros)</span></td><td><span class="ln8"></span></td><td><span class="ln8"></span></td><td><span class="ln8"></span></td></tr>
+        <tr><td class="name">Triple / Quíntuple<span class="dt">(gatos)</span></td><td><span class="ln8"></span></td><td><span class="ln8"></span></td><td><span class="ln8"></span></td></tr>
+        <tr><td class="name">Tos de las perreras<span class="dt">(Bordetella)</span></td><td><span class="ln8"></span></td><td><span class="ln8"></span></td><td><span class="ln8"></span></td></tr>
+        <tr><td class="name">Leucemia felina<span class="dt">(FeLV)</span></td><td><span class="ln8"></span></td><td><span class="ln8"></span></td><td><span class="ln8"></span></td></tr>
+        <tr><td class="name">Otra: ____________</td><td><span class="ln8"></span></td><td><span class="ln8"></span></td><td><span class="ln8"></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card dur">
+    <span class="chip dur">📝 Notas / Observaciones del veterinario</span>
+    <p class="hint">Tratamientos en curso, recordatorios o cualquier detalle importante.</p>
+    <div class="notes">
+      <span class="nl"></span><span class="nl"></span><span class="nl"></span>
+    </div>
+  </div>
+
+  <div class="footer"><span class="paw">🐾</span> Rincón Mascota — Cuidando de quienes más amas, cada día. <span class="paw">🐾</span></div>
+</div>
+
+<!-- ============ HOJA 2 ============ -->
+<div class="sheet s2">
+  <span class="page-tag" style="background:var(--menta-d)">Hoja 2 / 2</span>
+  <svg class="deco d3" viewBox="0 0 120 60"><rect x="6" y="22" width="108" height="16" rx="8" fill="#a9e3c4"/><circle cx="14" cy="14" r="9" fill="#a9e3c4"/><circle cx="14" cy="46" r="9" fill="#a9e3c4"/><circle cx="106" cy="14" r="9" fill="#a9e3c4"/><circle cx="106" cy="46" r="9" fill="#a9e3c4"/></svg>
+  <svg class="deco d4" viewBox="0 0 100 100"><g fill="#ffcfa3"><ellipse cx="50" cy="62" rx="22" ry="18"/><circle cx="26" cy="38" r="9"/><circle cx="44" cy="26" r="9"/><circle cx="62" cy="28" r="9"/><circle cx="78" cy="42" r="9"/></g></svg>
+
+  <div class="header">
+    <div class="brand">🐾 Rincón Mascota · Seguimiento mensual 🐾</div>
+  </div>
+
+  <div class="card menta">
+    <span class="chip menta">🪱 Control de Desparasitación (Interna y Externa)</span>
+    <p class="hint">Marca la casilla y anota la fecha cada mes para mantener a raya pulgas, garrapatas y parásitos internos.</p>
+    <div class="two-col">
+      <div>
+        <table>
+          <thead><tr><th style="width:30%">Mes</th><th style="width:35%">Interna</th><th>Externa</th></tr></thead>
+          <tbody>
+            <tr><td class="name">Enero</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+            <tr><td class="name">Febrero</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+            <tr><td class="name">Marzo</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+            <tr><td class="name">Abril</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+            <tr><td class="name">Mayo</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+            <tr><td class="name">Junio</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <table>
+          <thead><tr><th style="width:30%">Mes</th><th style="width:35%">Interna</th><th>Externa</th></tr></thead>
+          <tbody>
+            <tr><td class="name">Julio</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+            <tr><td class="name">Agosto</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+            <tr><td class="name">Septiembre</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+            <tr><td class="name">Octubre</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+            <tr><td class="name">Noviembre</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+            <tr><td class="name">Diciembre</td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td><td><span class="datewrap"><span class="box"></span><span class="ln8"></span></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card dur">
+    <span class="chip dur">⚖️ Control de Peso Mensual (Evolución)</span>
+    <p class="hint">Pesa a tu mascota cada mes para detectar cambios sutiles en su salud a tiempo.</p>
+    <div class="peso-grid">
+      <div class="p"><span class="lbl">Enero</span><span class="w"></span><span class="kg">kg</span></div>
+      <div class="p"><span class="lbl">Julio</span><span class="w"></span><span class="kg">kg</span></div>
+      <div class="p"><span class="lbl">Febrero</span><span class="w"></span><span class="kg">kg</span></div>
+      <div class="p"><span class="lbl">Agosto</span><span class="w"></span><span class="kg">kg</span></div>
+      <div class="p"><span class="lbl">Marzo</span><span class="w"></span><span class="kg">kg</span></div>
+      <div class="p"><span class="lbl">Sept.</span><span class="w"></span><span class="kg">kg</span></div>
+      <div class="p"><span class="lbl">Abril</span><span class="w"></span><span class="kg">kg</span></div>
+      <div class="p"><span class="lbl">Octubre</span><span class="w"></span><span class="kg">kg</span></div>
+      <div class="p"><span class="lbl">Mayo</span><span class="w"></span><span class="kg">kg</span></div>
+      <div class="p"><span class="lbl">Noviembre</span><span class="w"></span><span class="kg">kg</span></div>
+      <div class="p"><span class="lbl">Junio</span><span class="w"></span><span class="kg">kg</span></div>
+      <div class="p"><span class="lbl">Diciembre</span><span class="w"></span><span class="kg">kg</span></div>
+    </div>
+  </div>
+
+  <div class="card cielo">
+    <span class="chip cielo">🚨 Contactos de Emergencia y Veterinaria</span>
+    <p class="hint">Ten siempre a mano los números clave ante cualquier imprevisto.</p>
+    <div class="contact">
+      <div class="c"><span class="em">🏥</span><span class="lbl">Clínica veterinaria habitual</span><span class="ln"></span></div>
+      <div class="c"><span class="em">📞</span><span class="lbl">Teléfono / urgencias de la clínica</span><span class="ln"></span></div>
+      <div class="c"><span class="em">🚑</span><span class="lbl">Veterinaria de urgencias 24 h</span><span class="ln"></span></div>
+      <div class="c"><span class="em">📞</span><span class="lbl">Teléfono de urgencias 24 h</span><span class="ln"></span></div>
+      <div class="c"><span class="em">💊</span><span class="lbl">Veterinario a domicilio / extra</span><span class="ln"></span></div>
+    </div>
+  </div>
+
+  <div class="footer"><span class="paw">🐾</span> Rincón Mascota · Página 2 de 2 <span class="paw">🐾</span></div>
+</div>
+
+<script>
+/* Solo botones. El contenido YA está en el HTML, así que imprimir/descargar nunca queda vacío. */
+function clearCls(){document.body.classList.remove("pg1","pg2");}
+function printAll(){clearCls();setTimeout(()=>window.print(),60);}
+function printSheet(n){clearCls();document.body.classList.add("pg"+n);
+  setTimeout(()=>window.print(),90);
+  window.onafterprint=()=>{clearCls();window.onafterprint=null;};}
+async function downloadPDF(){
+  const btn=document.getElementById("btnDl"); const old=btn.textContent;
+  btn.disabled=true; btn.textContent="⏳ Generando…";
+  try{
+    if(document.fonts && document.fonts.ready) await document.fonts.ready;
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({unit:"mm",format:"a4",orientation:"portrait"});
+    const sheets=[...document.querySelectorAll(".sheet")];
+    for(let i=0;i<sheets.length;i++){
+      const canvas=await html2canvas(sheets[i],{scale:2,useCORS:true,backgroundColor:"#ffffff",logging:false});
+      if(i>0) pdf.addPage();
+      pdf.addImage(canvas.toDataURL("image/png"),"PNG",0,0,210,297,undefined,"FAST");
+    }
+    pdf.save("rincon-mascota-calendario-anual.pdf");
+  }catch(e){
+    alert("No se pudo generar el PDF automático (posible bloqueo del CDN). Usa 'Imprimir todo' → 'Guardar como PDF'.\n\nDetalle: "+e.message);
+  }finally{ btn.disabled=false; btn.textContent=old; }
+}
+</script>
+</body>
+</html>
