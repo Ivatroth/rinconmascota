@@ -14,19 +14,21 @@
                 extend: {
                     colors: {
                         brand: {
-                            bg: '#FAF4ED',
-                            cardBg: '#FFFDF9',
+                            bg: '#FAF4F9',
+                            cardBg: '#FFFFFF',
                             pink: '#F7A8B8',
                             pinkHover: '#F48BA2',
                             softPink: '#FFDCE2',
                             peach: '#FFDFD3',
+                            lavender: '#B39DDB',
+                            purpleDark: '#7E57C2',
+                            skyBlue: '#81D4FA',
+                            oceanBlue: '#4FC3F7',
                             cream: '#FFF5EB',
-                            text: '#5D4037',
-                            muted: '#9E8E88',
-                            disabledBg: '#E2DDD9',
-                            disabledText: '#A8A09A',
-                            badgeFree: '#81C784',
-                            badgePaid: '#FFB74D'
+                            text: '#4A3E4E',
+                            muted: '#8A7B8E',
+                            disabledBg: '#ECE7EF',
+                            disabledText: '#A59BAB'
                         }
                     },
                     fontFamily: {
@@ -34,8 +36,8 @@
                         quicksand: ['Quicksand', 'sans-serif']
                     },
                     boxShadow: {
-                        'kawaii': '0 8px 20px -4px rgba(247, 168, 184, 0.3), 0 4px 6px -2px rgba(93, 64, 55, 0.05)',
-                        'kawaii-hover': '0 12px 25px -4px rgba(247, 168, 184, 0.5), 0 6px 10px -2px rgba(93, 64, 55, 0.08)',
+                        'kawaii': '0 8px 22px -4px rgba(126, 87, 194, 0.25), 0 4px 6px -2px rgba(74, 62, 78, 0.05)',
+                        'kawaii-hover': '0 12px 28px -4px rgba(126, 87, 194, 0.4), 0 6px 12px -2px rgba(74, 62, 78, 0.08)',
                         'disabled': '0 4px 10px rgba(0,0,0,0.03)'
                     }
                 }
@@ -46,11 +48,13 @@
     <style>
         body {
             font-family: 'Quicksand', sans-serif;
-            background-color: #FAF4ED;
-            background-image: radial-gradient(#F7A8B8 0.6px, transparent 0.6px), radial-gradient(#F7A8B8 0.6px, #FAF4ED 0.6px);
-            background-size: 24px 24px;
-            background-position: 0 0, 12px 12px;
-            color: #5D4037;
+            background-color: #FAF4F9;
+            background-image: 
+                radial-gradient(#B39DDB 0.7px, transparent 0.7px), 
+                radial-gradient(#81D4FA 0.7px, #FAF4F9 0.7px);
+            background-size: 28px 28px;
+            background-position: 0 0, 14px 14px;
+            color: #4A3E4E;
         }
 
         .title-font {
@@ -60,7 +64,7 @@
         /* Floating animation for decorative elements */
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(3deg); }
+            50% { transform: translateY(-8px) rotate(4deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
 
@@ -71,33 +75,33 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-between p-4 sm:p-6 md:p-8">
 
-    <main class="w-full max-w-md my-auto bg-brand-cardBg/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-white relative overflow-hidden">
+    <main class="w-full max-w-md my-auto bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-purple-100 relative overflow-hidden">
         
-        <!-- Elementos decorativos de fondo estilo Kawaii -->
-        <div class="absolute -top-6 -left-6 text-brand-softPink/60 text-5xl float-animation" style="animation-delay: 0s;">
+        <!-- Elementos decorativos de fondo estilo Kawaii con color -->
+        <div class="absolute -top-6 -left-6 text-purple-300/60 text-5xl float-animation" style="animation-delay: 0s;">
             <i class="fa-solid fa-paw"></i>
         </div>
-        <div class="absolute -top-4 -right-4 text-brand-peach/80 text-4xl float-animation" style="animation-delay: 1.5s;">
+        <div class="absolute -top-4 -right-4 text-sky-300/70 text-4xl float-animation" style="animation-delay: 1.5s;">
             <i class="fa-solid fa-heart"></i>
         </div>
-        <div class="absolute -bottom-6 -left-4 text-brand-peach/80 text-4xl float-animation" style="animation-delay: 2s;">
+        <div class="absolute -bottom-6 -left-4 text-amber-300/80 text-4xl float-animation" style="animation-delay: 2s;">
             <i class="fa-solid fa-star"></i>
         </div>
-        <div class="absolute -bottom-6 -right-6 text-brand-softPink/60 text-5xl float-animation" style="animation-delay: 0.8s;">
+        <div class="absolute -bottom-6 -right-6 text-pink-300/60 text-5xl float-animation" style="animation-delay: 0.8s;">
             <i class="fa-solid fa-paw"></i>
         </div>
 
         <div class="flex flex-col items-center text-center relative z-10 mb-8">
             <div class="relative group">
-                <!-- Marco con sombra suave e imagen -->
-                <div class="w-36 h-36 sm:w-40 sm:h-40 rounded-full p-2 bg-gradient-to-tr from-brand-pink via-brand-peach to-brand-softPink shadow-lg transition-transform duration-300 group-hover:scale-105">
+                <!-- Marco con gradiente violeta/rosa y azul -->
+                <div class="w-36 h-36 sm:w-40 sm:h-40 rounded-full p-2 bg-gradient-to-tr from-brand-purpleDark via-brand-pink to-brand-skyBlue shadow-lg transition-transform duration-300 group-hover:scale-105">
                     <img src="imagen/fotoperfil.jpg" 
                          alt="Logo Rincón Mascota" 
                          class="w-full h-full object-cover rounded-full border-4 border-white shadow-inner"
                          onerror="this.onerror=null; this.src='https://placehold.co/200x200/FFDCE2/5D4037?text=Rinc%C3%B3n+Mascota'">
                 </div>
-                <div class="absolute -bottom-1 -right-1 bg-white p-2 rounded-full shadow-md text-brand-pink text-lg">
-                    <i class="fa-solid fa-sparkles"></i>
+                <div class="absolute -bottom-1 -right-1 bg-white p-2 rounded-full shadow-md text-purple-500 text-lg">
+                    ✨
                 </div>
             </div>
 
@@ -111,25 +115,20 @@
 
         <div class="space-y-4 relative z-10">
             
-            <!-- Botón 1: Recurso Activo (Gratuito) -->
+            <!-- Botón 1: Recurso Activo (Violeta / Púrpura) -->
             <a href="calendario-salud.html" 
-               class="group block w-full bg-gradient-to-r from-brand-pink to-pink-300 hover:from-brand-pinkHover hover:to-pink-400 text-white rounded-2xl p-4 shadow-kawaii hover:shadow-kawaii-hover transform hover:-translate-y-1 transition-all duration-300 border-2 border-white/60 relative overflow-hidden">
+               class="group block w-full bg-gradient-to-r from-purple-600 to-indigo-500 hover:from-purple-700 hover:to-indigo-600 text-white rounded-2xl p-4 shadow-kawaii hover:shadow-kawaii-hover transform hover:-translate-y-1 transition-all duration-300 border-2 border-white/60 relative overflow-hidden">
                 <div class="flex items-center space-x-4">
-                    <!-- Icono representativo -->
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 text-white text-xl group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-calendar-check"></i>
+                    <!-- Icono Emoji Colorido -->
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 text-2xl group-hover:scale-110 transition-transform">
+                        🩺
                     </div>
                     <!-- Texto e información -->
                     <div class="flex-grow text-left pr-2">
-                        <div class="flex items-center space-x-2">
-                            <span class="bg-emerald-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
-                                Gratuito
-                            </span>
-                        </div>
-                        <h2 class="title-font text-base sm:text-lg font-bold leading-snug mt-0.5">
+                        <h2 class="title-font text-base sm:text-lg font-bold leading-snug text-white">
                             Calendario y Chequeo de Salud y Desparasitación Anual
                         </h2>
-                        <p class="text-xs text-white/90 font-medium">Lleva el control de vacunas y cuidados de tu peludito</p>
+                        <p class="text-xs text-purple-100 font-medium">Lleva el control de vacunas y cuidados de tu peludito</p>
                     </div>
                     <!-- Flecha de acción -->
                     <div class="text-white/80 group-hover:text-white group-hover:translate-x-1 transition-all">
@@ -138,25 +137,20 @@
                 </div>
             </a>
 
-            <!-- Botón 2: Recurso Activo (De Pago - Hotmart) -->
+            <!-- Botón 2: Recurso Activo (Azul / Océano) -->
             <a href="https://go.hotmart.com/C108184471F?ap=a2fb" 
                target="_blank" 
                rel="noopener noreferrer"
-               class="group block w-full bg-gradient-to-r from-amber-400 to-orange-300 hover:from-amber-500 hover:to-orange-400 text-white rounded-2xl p-4 shadow-kawaii hover:shadow-kawaii-hover transform hover:-translate-y-1 transition-all duration-300 border-2 border-white/60 relative overflow-hidden">
+               class="group block w-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white rounded-2xl p-4 shadow-kawaii hover:shadow-kawaii-hover transform hover:-translate-y-1 transition-all duration-300 border-2 border-white/60 relative overflow-hidden">
                 <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 text-white text-xl group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-cookie-bite"></i>
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 text-2xl group-hover:scale-110 transition-transform">
+                        🧁
                     </div>
                     <div class="flex-grow text-left pr-2">
-                        <div class="flex items-center space-x-2">
-                            <span class="bg-amber-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
-                                De Pago
-                            </span>
-                        </div>
-                        <h2 class="title-font text-base sm:text-lg font-bold leading-snug mt-0.5">
+                        <h2 class="title-font text-base sm:text-lg font-bold leading-snug text-white">
                             Curso: Pastelería Inclusiva para Perros y Gatos Enfermos
                         </h2>
-                        <p class="text-xs text-white/90 font-medium">Mejora la vida de tu mascota con snacks saludables y deliciosos</p>
+                        <p class="text-xs text-sky-100 font-medium">Mejora la vida de tu mascota con snacks saludables y deliciosos</p>
                     </div>
                     <div class="text-white/80 group-hover:text-white group-hover:translate-x-1 transition-all">
                         <i class="fa-solid fa-chevron-right text-lg"></i>
@@ -164,25 +158,20 @@
                 </div>
             </a>
 
-            <!-- Botón 3: Recurso Activo (De Pago - 450 Recetas Saludables) -->
+            <!-- Botón 3: Recurso Activo (Coral / Magenta Kawaii) -->
             <a href="https://go.hotmart.com/L108230349E" 
                target="_blank" 
                rel="noopener noreferrer"
-               class="group block w-full bg-gradient-to-r from-rose-400 to-amber-400 hover:from-rose-500 hover:to-amber-500 text-white rounded-2xl p-4 shadow-kawaii hover:shadow-kawaii-hover transform hover:-translate-y-1 transition-all duration-300 border-2 border-white/60 relative overflow-hidden">
+               class="group block w-full bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white rounded-2xl p-4 shadow-kawaii hover:shadow-kawaii-hover transform hover:-translate-y-1 transition-all duration-300 border-2 border-white/60 relative overflow-hidden">
                 <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 text-white text-xl group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-utensils"></i>
+                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 text-2xl group-hover:scale-110 transition-transform">
+                        🥗
                     </div>
                     <div class="flex-grow text-left pr-2">
-                        <div class="flex items-center space-x-2">
-                            <span class="bg-amber-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
-                                De Pago
-                            </span>
-                        </div>
-                        <h2 class="title-font text-base sm:text-lg font-bold leading-snug mt-0.5">
+                        <h2 class="title-font text-base sm:text-lg font-bold leading-snug text-white">
                             +450 Recetas Saludables para Perros y Gatos
                         </h2>
-                        <p class="text-xs text-white/90 font-medium">Transforma su nutrición con menús naturales, variados y adaptados a cada etapa de su vida</p>
+                        <p class="text-xs text-pink-100 font-medium">Transforma su nutrición con menús naturales, variados y adaptados a cada etapa de su vida</p>
                     </div>
                     <div class="text-white/80 group-hover:text-white group-hover:translate-x-1 transition-all">
                         <i class="fa-solid fa-chevron-right text-lg"></i>
@@ -190,47 +179,37 @@
                 </div>
             </a>
 
-            <!-- Botón 4: Desactivado (Gratuito) -->
-            <div class="w-full bg-brand-disabledBg/60 text-brand-disabledText rounded-2xl p-4 shadow-disabled border-2 border-dashed border-gray-300/80 cursor-not-allowed relative">
+            <!-- Botón 4: Desactivado -->
+            <div class="w-full bg-brand-disabledBg/70 text-brand-disabledText rounded-2xl p-4 shadow-disabled border-2 border-dashed border-purple-200 cursor-not-allowed relative">
                 <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center shrink-0 text-gray-400 text-xl">
-                        <i class="fa-solid fa-dog"></i>
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center shrink-0 text-2xl opacity-60">
+                        🐶
                     </div>
                     <div class="flex-grow text-left pr-2">
-                        <div class="flex items-center space-x-2">
-                            <span class="bg-gray-300 text-gray-600 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                                Próximamente • Gratuito
-                            </span>
-                        </div>
-                        <h2 class="title-font text-base font-bold leading-snug mt-0.5">
+                        <h2 class="title-font text-base font-bold leading-snug">
                             Planificador Semanal de Hábitos y Paseos
                         </h2>
-                        <p class="text-xs text-gray-400 font-medium">Organiza el tiempo de juego, ejercicio y entrenamiento</p>
+                        <p class="text-xs text-brand-disabledText font-medium">Organiza el tiempo de juego, ejercicio y entrenamiento</p>
                     </div>
-                    <div class="text-gray-400">
+                    <div class="text-purple-400/80">
                         <i class="fa-solid fa-lock text-sm"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- Botón 4: Desactivado (De Pago) -->
-            <div class="w-full bg-brand-disabledBg/60 text-brand-disabledText rounded-2xl p-4 shadow-disabled border-2 border-dashed border-gray-300/80 cursor-not-allowed relative">
+            <!-- Botón 5: Desactivado -->
+            <div class="w-full bg-brand-disabledBg/70 text-brand-disabledText rounded-2xl p-4 shadow-disabled border-2 border-dashed border-purple-200 cursor-not-allowed relative">
                 <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center shrink-0 text-gray-400 text-xl">
-                        <i class="fa-solid fa-kit-medical"></i>
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center shrink-0 text-2xl opacity-60">
+                        🩹
                     </div>
                     <div class="flex-grow text-left pr-2">
-                        <div class="flex items-center space-x-2">
-                            <span class="bg-gray-300 text-gray-600 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                                Próximamente • Pago
-                            </span>
-                        </div>
-                        <h2 class="title-font text-base font-bold leading-snug mt-0.5">
+                        <h2 class="title-font text-base font-bold leading-snug">
                             Manual de Primeros Auxilios y Emergencias Mascoteras
                         </h2>
-                        <p class="text-xs text-gray-400 font-medium">Paso a paso ante situaciones de riesgo e imprevistos</p>
+                        <p class="text-xs text-brand-disabledText font-medium">Paso a paso ante situaciones de riesgo e imprevistos</p>
                     </div>
-                    <div class="text-gray-400">
+                    <div class="text-purple-400/80">
                         <i class="fa-solid fa-lock text-sm"></i>
                     </div>
                 </div>
@@ -238,24 +217,4 @@
 
         </div>
 
-        <footer class="mt-8 pt-6 border-t border-brand-peach/50 text-center relative z-10">
-            <div class="flex justify-center space-x-4 mb-3 text-brand-pink">
-                <a href="#" class="w-9 h-9 rounded-full bg-brand-softPink/50 flex items-center justify-center hover:bg-brand-pink hover:text-white transition-colors">
-                    <i class="fa-brands fa-instagram text-lg"></i>
-                </a>
-                <a href="#" class="w-9 h-9 rounded-full bg-brand-softPink/50 flex items-center justify-center hover:bg-brand-pink hover:text-white transition-colors">
-                    <i class="fa-brands fa-tiktok text-lg"></i>
-                </a>
-                <a href="#" class="w-9 h-9 rounded-full bg-brand-softPink/50 flex items-center justify-center hover:bg-brand-pink hover:text-white transition-colors">
-                    <i class="fa-brands fa-whatsapp text-lg"></i>
-                </a>
-            </div>
-            <p class="text-xs text-brand-muted font-medium flex items-center justify-center gap-1">
-                Hecho con <i class="fa-solid fa-heart text-pink-400"></i> para tus peluditos
-            </p>
-        </footer>
-
-    </main>
-
-</body>
-</html>
+        <footer class="mt-8 pt-6 border-t border-purple-100 text-center relative z-10">
